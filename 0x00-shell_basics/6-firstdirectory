@@ -1,2 +1,2 @@
 #!/bin/bash
-mktemp /tmp/holberton
+mktemp -d /tmp/holberton
