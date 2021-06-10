@@ -1,2 +1,2 @@
 #!/bin/bash
-holberton=$(mktemp -d)
+holberton=$(mktemp -d -t holberton-XXXXXXXXXX)
