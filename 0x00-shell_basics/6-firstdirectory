@@ -1,2 +1,2 @@
 #!/bin/bash
-directory=$(mktemp -d holberton)
+holberton=$(mktemp -d)
