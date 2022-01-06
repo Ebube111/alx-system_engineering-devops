@@ -6,7 +6,7 @@ sudo apt-get install -y nginx
 if [ $? -eq 0 ]
 then
     echo -e \
-    "http {
+"http {
     root /var/www/holberton;
     index index.html;
     server {
@@ -18,16 +18,16 @@ then
 events {
 }" > /etc/nginx/nginx.conf
     mkdir -p /var/www/holberton
-        echo "hello Holberton School" > \
-	     /var/www/holberton/index.html
-	         service nginx start
-		     if [ $? -ne 0 ]
-		         then
-				"Problem starting nginx"
-					 exit 1
-					     fi
-					     else
-					         echo "Could not install nginx"
-						     exit 1
-						     fi
-						     exit 0
+    echo "Hello World!" > \
+	/var/www/holberton/index.html
+    service nginx start
+    if [ $? -ne 0 ]
+    then
+	"Problem starting nginx"
+	exit 1
+    fi
+else
+    echo "Could not install nginx"
+    exit 1
+fi
+exit 0
