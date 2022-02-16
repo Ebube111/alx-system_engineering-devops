@@ -1,19 +1,37 @@
 #!/usr/bin/python3
-""" Recursive function that queries the Reddit API
-    parses the title of all hot articles, and prints a sorted count"""
+'''
+a recursive function that queries the Reddit API and returns
+a list containing the titles of all hot articles for a given
+subreddit. If no results are found for the given subreddit,
+the function should return None
+'''
+
 import requests
-import sys
-after = None
-count_dic = []
 
 
-def count_words(subreddit, word_list):
-    """parses the title of all hot articles, and prints a sorted count of given
-    keywords (case-insensitive, delimited by spaces) """
-    global after
-    global count_dic
-    headers = {'User-Agent': 'xica369'}
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    parameters = {'after': after}
-    response = requests.get(url, headers=headers, allow_redirects=False,
-                            params=parameters)
+def recurse(subreddit, hot_list=[], after=None):
+    '''
+    recursive function
+    '''
+    if subreddit is None or type(subreddit) is not str:
+        return None
+    url = "http://www.reddit.com/r/{}/hot.json".format(subreddit)
+    headers = {
+        'User-Agent': 'Python/requests:api.advanced:v1.0.0 (by /u/aleix)'}
+    params = {"after": after, "limit": 100}
+    req = requests.get(url, headers=headers, params=params).json()
+    after = req.get('data', {}).get('after', None)
+    posts = req.get('data', {}).get('children', None)
+    if posts is None or (len(posts) > 0 and posts[0].get('kind') != 't3'):
+        if len(hot_list) == 0:
+            return None
+        return hot_list
+    else:
+        for post in posts:
+            hot_list.append(post.get('data', {}).get('title', None))
+    if after is None:
+        if len(hot_list) == 0:
+            return None
+        return hot_list
+    else:
+        return recurse(subreddit, hot_list, after)
